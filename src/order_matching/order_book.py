@@ -12,7 +12,7 @@ from order_matching.side import Side
 OrderBookOrdersType = dict[float, Orders]
 
 
-class UnprocessedOrders:
+class OrderBook:
     def __init__(self) -> None:
         self.bids: OrderBookOrdersType = defaultdict(Orders)
         self.offers: OrderBookOrdersType = defaultdict(Orders)

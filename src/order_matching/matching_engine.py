@@ -5,7 +5,7 @@ from order_matching.order import Order
 from order_matching.orders import Orders
 from order_matching.status import Status
 from order_matching.trade import Trade
-from order_matching.unprocessed_orders import UnprocessedOrders
+from order_matching.order_book import OrderBook
 from order_matching.random import get_faker
 
 
@@ -14,7 +14,7 @@ class MatchingEngine:
         self._seed = seed
         self._faker = get_faker(seed=seed)
         self._queue = Orders()
-        self.unprocessed_orders = UnprocessedOrders()
+        self.unprocessed_orders = OrderBook()
         self._timestamp: pd.Timestamp | None = None
 
     def match(self, orders: Orders, timestamp: pd.Timestamp) -> ExecutedTrades:
