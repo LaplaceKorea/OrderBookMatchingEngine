@@ -17,33 +17,33 @@ class MatchingEngine:
         self.unprocessed_orders = UnprocessedOrders()
         self._timestamp: pd.Timestamp | None = None
 
-    def process_orders(self, orders: Orders, timestamp: pd.Timestamp) -> ExecutedTrades:
+    def match(self, orders: Orders, timestamp: pd.Timestamp) -> ExecutedTrades:
         self._timestamp = timestamp
         self._queue += orders
         trades = ExecutedTrades()
         while not self._queue.is_empty:
-            trades += self._process_order(order=self._queue.dequeue())
+            trades += self._match(order=self._queue.dequeue())
         return trades
 
-    def _process_order(self, order: Order) -> ExecutedTrades:
+    def _match(self, order: Order) -> ExecutedTrades:
         if order.status == Status.CANCEL:
             self.unprocessed_orders.remove(incoming_order=order)
             return ExecutedTrades()
         elif self.unprocessed_orders.matching_order_exists(incoming_order=order):
-            return self._process_match(incoming_order=order)
+            return self._execute_trades(incoming_order=order)
         else:
             self.unprocessed_orders.append(incoming_order=order)
             return ExecutedTrades()
 
-    def _process_match(self, incoming_order: Order) -> ExecutedTrades:
+    def _execute_trades(self, incoming_order: Order) -> ExecutedTrades:
         trades = ExecutedTrades()
         for price in self.unprocessed_orders.get_matching_sorted_opposite_side_prices(incoming_order=incoming_order):
-            trades += self._process_match_for_one_price(incoming_order=incoming_order, price=price)
+            trades += self._execute_trades_for_one_price(incoming_order=incoming_order, price=price)
         if incoming_order.size > 0:
             self.unprocessed_orders.append(incoming_order=incoming_order)
         return trades
 
-    def _process_match_for_one_price(self, incoming_order: Order, price: float) -> ExecutedTrades:
+    def _execute_trades_for_one_price(self, incoming_order: Order, price: float) -> ExecutedTrades:
         opposite_side_orders = self.unprocessed_orders.get_opposite_side_orders(incoming_order=incoming_order)
         trades, zero_size_orders = list(), list()
         for book_order in opposite_side_orders[price]:
