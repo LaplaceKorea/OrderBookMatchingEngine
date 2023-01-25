@@ -1,0 +1,72 @@
+[project]
+name = "order-matching"
+description = "Order Book Matching Engine"
+authors = [
+    {name = "Stanislav Khrapov", email = "stanislav.khrapov@chintai.io"},
+    {name = "Akanksha Toshniwal", email = "akanksha.toshniwal@chintai.io"},
+    {name = "Shannen Tioniwar", email = "shannen.tioniwar@chintai.io"}
+]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pandas",
+    "pandera",
+    "faker"
+]
+dynamic = ["version"]
+
+[project.urls]
+Source = "https://github.com/chintai-platform/OrderBookMatchingEngine"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-xdist"
+]
+dev = [
+    "black",
+    "isort",
+    "autoflake",
+    "mypy",
+    "pre-commit",
+]
+
+[build-system]
+requires = [
+    "setuptools>=45",
+    "wheel",
+    "setuptools_scm[toml]>=6.2"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "--cov-config=.coveragerc --verbose -n=auto"
+testpaths = "tests"
+
+[tool.setuptools_scm]
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line_length = 120
+src_paths = ["src", "test"]
+
+[tool.mypy]
+ignore_missing_imports = true
+install_types = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+non_interactive = true
+no_strict_optional = true
+
+[tool.pydocstyle]
+inherit = false
+ignore = ["D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107", "D213", "D417"]
