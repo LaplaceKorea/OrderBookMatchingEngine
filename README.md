@@ -1,10 +1,18 @@
 # Order Book Matching Engine
 
 ![pytest](https://github.com/chintai-platform/OrderBookMatchingEngine/actions/workflows/workflow.yaml/badge.svg)
+[![!pypi](https://img.shields.io/pypi/v/order-matching)](https://pypi.org/project/order-matching/)
+[![!python-versions](https://img.shields.io/pypi/pyversions/order-matching)](https://pypi.org/project/order-matching/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 The project is hosted on [GitHub](https://github.com/chintai-platform/OrderBookMatchingEngine).
+
+## Install
+
+```shell
+pip install order-matching
+```
 
 ## Contribute
 

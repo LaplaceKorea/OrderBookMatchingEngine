@@ -1,16 +1,17 @@
-name: code quality and tests
+name: Tests, Code Quality, Build
 
 on:
   push:
     branches:
       - "*"
-    tags-ignore:
-      - "*"
+    tags:
+      - "**"
 
 jobs:
 
   test:
-    runs-on: [self-hosted,nodejs]
+    name: Run unit tests
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -18,13 +19,16 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
+          cache: "pip"
+          cache-dependency-path: pyproject.toml
       - name: Install dependencies
         run: pip install -e .[test]
       - name: Run test suite
         run: pytest --cov=order_matching
 
   code-quality:
-    runs-on: [self-hosted,nodejs]
+    name: Code quality checks
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -42,3 +46,48 @@ jobs:
         run: pip install pre-commit
       - name: Run pre-commit
         run: pre-commit run -v --show-diff-on-failure
+
+  build:
+    name: Build wheels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip install .[build]
+      - name: Build wheels and source distribution
+        run: |
+          python -m pip install build
+          python -m build --wheel --sdist --outdir dist
+      - uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: dist/*
+
+  upload-pypi:
+    name: Upload to PyPi
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: wheels
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages_dir: dist/
+
+  release:
+    name: Release on GitHub
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
