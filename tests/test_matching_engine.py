@@ -3,7 +3,7 @@ from copy import deepcopy
 import pandas as pd
 
 from order_matching.order import LimitOrder, MarketOrder
-from order_matching.order_book import OrderBook
+from order_matching.matching_engine import MatchingEngine
 from order_matching.orders import Orders
 from order_matching.side import Side
 from order_matching.status import Status
@@ -11,9 +11,9 @@ from order_matching.trade import Trade
 from order_matching.random import get_faker
 
 
-class TestOrderBook:
+class TestMatchingEngine:
     def test_process_order_with_complete_order(self) -> None:
-        order_book = OrderBook()
+        order_book = MatchingEngine()
 
         assert order_book.unprocessed_orders.bids == dict()
         assert order_book.unprocessed_orders.offers == dict()
@@ -63,7 +63,7 @@ class TestOrderBook:
         assert executed_trades.trades == []
 
     def test_process_order_with_matching_offer_same_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         size = 1
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -98,7 +98,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == float("inf")
 
     def test_process_order_with_matching_bid_same_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         size = 1
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -132,7 +132,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == float("inf")
 
     def test_process_order_with_matching_offer_smaller_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         sell_order = LimitOrder(side=Side.SELL, price=3, size=2, timestamp=timestamp, order_id="abc", trader_id="x")
@@ -168,7 +168,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == 1.5
 
     def test_process_order_with_matching_bid_smaller_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         buy_order = LimitOrder(side=Side.BUY, price=4, size=2, timestamp=timestamp, order_id="abc", trader_id="x")
@@ -204,7 +204,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == float("inf")
 
     def test_process_order_with_matching_offer_bigger_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         sell_order = LimitOrder(side=Side.SELL, price=3, size=1, timestamp=timestamp, order_id="abc", trader_id="x")
@@ -240,7 +240,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == float("inf")
 
     def test_process_order_with_matching_offer_bigger_size_and_multiple_bids(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         matching_order = LimitOrder(side=Side.BUY, price=5, size=1, timestamp=timestamp, order_id="c", trader_id="x")
@@ -288,7 +288,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_matching_bid_bigger_size_and_multiple_offers(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         matching_order = LimitOrder(side=Side.SELL, price=6, size=1, timestamp=timestamp, order_id="c", trader_id="x")
@@ -336,7 +336,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_matching_bid_bigger_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         buy_order = LimitOrder(side=Side.BUY, price=4, size=1, timestamp=timestamp, order_id="abc", trader_id="x")
@@ -372,7 +372,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == 1.5
 
     def test_process_order_with_multiple_matching_offers_bigger_size(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         sell_order_first = LimitOrder(
@@ -434,7 +434,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == float("inf")
 
     def test_process_order_with_multiple_matching_bids_bigger_size(self) -> None:
-        order_book = OrderBook(seed=66)
+        order_book = MatchingEngine(seed=66)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         buy_order_first = LimitOrder(side=Side.BUY, price=4, size=1, timestamp=timestamp, order_id="abc", trader_id="x")
@@ -496,7 +496,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.current_price == 1.5
 
     def test_process_order_does_not_leave_zero_size_orders_behind(self) -> None:
-        order_book = OrderBook(seed=66)
+        order_book = MatchingEngine(seed=66)
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
         buy_order_first = LimitOrder(side=Side.BUY, price=4, size=1, timestamp=timestamp, order_id="a", trader_id="x")
@@ -547,7 +547,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_time_preference(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
 
         timestamp = pd.Timestamp(2022, 1, 5)
         timedelta = pd.Timedelta(1, unit="D")
@@ -584,7 +584,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_market_orders_only(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
 
         assert order_book.unprocessed_orders.bids == dict()
         assert order_book.unprocessed_orders.offers == dict()
@@ -626,7 +626,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_sell_market_order_after_limit_orders(self) -> None:
-        order_book = OrderBook(seed=42)
+        order_book = MatchingEngine(seed=42)
 
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -675,7 +675,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_buy_market_orders_after_limit_orders(self) -> None:
-        order_book = OrderBook(seed=2)
+        order_book = MatchingEngine(seed=2)
 
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -724,7 +724,7 @@ class TestOrderBook:
         ]
 
     def test_process_order_with_order_cancellation(self) -> None:
-        order_book = OrderBook()
+        order_book = MatchingEngine()
 
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -740,7 +740,7 @@ class TestOrderBook:
         assert order_book.unprocessed_orders.bids == {}
 
     def test_process_order_with_order_cancellation_after_trading(self) -> None:
-        order_book = OrderBook()
+        order_book = MatchingEngine()
 
         timestamp = pd.Timestamp.now()
         transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")

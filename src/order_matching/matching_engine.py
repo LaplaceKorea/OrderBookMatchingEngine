@@ -9,7 +9,7 @@ from order_matching.unprocessed_orders import UnprocessedOrders
 from order_matching.random import get_faker
 
 
-class OrderBook:
+class MatchingEngine:
     def __init__(self, seed: int = None) -> None:
         self._seed = seed
         self._faker = get_faker(seed=seed)
