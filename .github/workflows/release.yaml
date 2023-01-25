@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted,nodejs]
     steps:
       - name: Checkout
         uses: actions/checkout@v3

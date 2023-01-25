@@ -10,7 +10,7 @@ on:
 jobs:
 
   test:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted,nodejs]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -24,7 +24,7 @@ jobs:
         run: pytest --cov=order_matching
 
   code-quality:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted,nodejs]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
