@@ -1,0 +1,44 @@
+name: code quality and tests
+
+on:
+  push:
+    branches:
+      - "*"
+    tags-ignore:
+      - "*"
+
+jobs:
+
+  test:
+    runs-on: [self-hosted,nodejs]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install -e .[test]
+      - name: Run test suite
+        run: pytest --cov=order_matching
+
+  code-quality:
+    runs-on: [self-hosted,nodejs]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: set PY
+        run: echo "PY=$(python -VV | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Install dependencies
+        run: pip install pre-commit
+      - name: Run pre-commit
+        run: pre-commit run -v --show-diff-on-failure
