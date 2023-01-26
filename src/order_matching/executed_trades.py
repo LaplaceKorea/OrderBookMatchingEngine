@@ -27,6 +27,9 @@ class ExecutedTrades:
         for trade in trades:
             self._trades[trade.timestamp].append(trade)
 
+    def get(self, timestamp: pd.Timestamp) -> list[Trade]:
+        return self._trades[timestamp]
+
     def to_frame(self) -> DataFrame[TradeDataSchema]:
         if len(self._trades) == 0:
             return pd.DataFrame()

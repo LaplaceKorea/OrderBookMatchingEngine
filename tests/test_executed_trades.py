@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import pandas as pd
 
 from order_matching.executed_trades import ExecutedTrades
@@ -8,6 +10,8 @@ from order_matching.trade import Trade
 
 
 class TestExecutedTrades:
+    timestamp = pd.Timestamp.now()
+
     def test_init(self) -> None:
         executed_trades = ExecutedTrades()
 
@@ -31,7 +35,21 @@ class TestExecutedTrades:
 
         executed_trades.add(trades=[second_trade, first_trade])
 
-        assert executed_trades.trades == [first_trade, first_trade, second_trade, second_trade]
+        assert executed_trades.trades == [first_trade, second_trade, second_trade, first_trade]
+
+    def test_get(self) -> None:
+        executed_trades = ExecutedTrades()
+        first_trade, second_trade = self._get_sample_trades()
+        executed_trades.add(trades=[first_trade, second_trade])
+
+        assert executed_trades.get(timestamp=self.timestamp) == [first_trade, second_trade]
+
+        third_trade = deepcopy(first_trade)
+        third_trade.timestamp += pd.Timedelta(1, unit="D")
+        executed_trades.add(trades=[third_trade])
+
+        assert executed_trades.get(timestamp=self.timestamp) == [first_trade, second_trade]
+        assert executed_trades.get(timestamp=third_trade.timestamp) == [third_trade]
 
     def test_to_frame(self) -> None:
         executed_trades = ExecutedTrades()
@@ -58,14 +76,13 @@ class TestExecutedTrades:
         assert executed_trades_second.trades == [second_trade]
         assert executed_trades_third.trades == [first_trade]
 
-    @staticmethod
-    def _get_sample_trades() -> list[Trade]:
+    def _get_sample_trades(self) -> list[Trade]:
         return [
             Trade(
                 side=Side.SELL,
                 price=0.5,
                 size=0.9,
-                timestamp=pd.Timestamp.now(),
+                timestamp=self.timestamp,
                 incoming_order_id="a",
                 book_order_id="x",
                 execution=Execution.LIMIT,
@@ -75,7 +92,7 @@ class TestExecutedTrades:
                 side=Side.BUY,
                 price=0.8,
                 size=0.4,
-                timestamp=pd.Timestamp.now(),
+                timestamp=self.timestamp,
                 incoming_order_id="b",
                 book_order_id="y",
                 execution=Execution.LIMIT,
