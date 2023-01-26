@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from dataclasses import asdict
 
 import pandas as pd
@@ -11,13 +12,26 @@ from order_matching.trade import Trade
 
 class ExecutedTrades:
     def __init__(self, trades: list[Trade] = None) -> None:
-        self.trades: list[Trade] = list() if trades is None else trades
+        self._trades: dict[pd.Timestamp, list[Trade]] = defaultdict(list)
+        if trades:
+            self.add(trades=trades)
+
+    @property
+    def trades(self) -> list[Trade]:
+        trades = list()
+        for same_time_trades in self._trades.values():
+            trades.extend(same_time_trades)
+        return trades
 
     def add(self, trades: list[Trade]) -> None:
-        self.trades.extend(trades)
+        for trade in trades:
+            self._trades[trade.timestamp].append(trade)
+
+    def get(self, timestamp: pd.Timestamp) -> list[Trade]:
+        return self._trades[timestamp]
 
     def to_frame(self) -> DataFrame[TradeDataSchema]:
-        if len(self.trades) == 0:
+        if len(self._trades) == 0:
             return pd.DataFrame()
         else:
             return pd.DataFrame.from_records([asdict(trade) for trade in self.trades]).assign(
