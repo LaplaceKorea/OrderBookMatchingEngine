@@ -31,10 +31,11 @@ class ExecutedTrades:
         return self._trades[timestamp]
 
     def to_frame(self) -> DataFrame[TradeDataSchema]:
-        if len(self._trades) == 0:
+        trades = self.trades
+        if len(trades) == 0:
             return pd.DataFrame()
         else:
-            return pd.DataFrame.from_records([asdict(trade) for trade in self.trades]).assign(
+            return pd.DataFrame.from_records([asdict(trade) for trade in trades]).assign(
                 **{
                     TradeDataSchema.side: lambda df: df[TradeDataSchema.side].astype(str),
                     TradeDataSchema.execution: lambda df: df[TradeDataSchema.execution].astype(str),

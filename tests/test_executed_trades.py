@@ -53,6 +53,9 @@ class TestExecutedTrades:
 
     def test_to_frame(self) -> None:
         executed_trades = ExecutedTrades()
+
+        pd.testing.assert_frame_equal(executed_trades.to_frame(), pd.DataFrame())
+
         first_trade, second_trade = self._get_sample_trades()
         executed_trades.add(trades=[first_trade, second_trade])
 
