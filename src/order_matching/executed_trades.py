@@ -19,7 +19,7 @@ class ExecutedTrades:
     @property
     def trades(self) -> list[Trade]:
         trades = list()
-        for timestamp, same_time_trades in self._trades.items():
+        for same_time_trades in self._trades.values():
             trades.extend(same_time_trades)
         return trades
 
