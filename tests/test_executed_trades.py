@@ -31,7 +31,7 @@ class TestExecutedTrades:
 
         executed_trades.add(trades=[second_trade, first_trade])
 
-        assert executed_trades.trades == [first_trade, second_trade, second_trade, first_trade]
+        assert executed_trades.trades == [first_trade, first_trade, second_trade, second_trade]
 
     def test_to_frame(self) -> None:
         executed_trades = ExecutedTrades()
