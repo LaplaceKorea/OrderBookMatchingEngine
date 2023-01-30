@@ -16,8 +16,9 @@ class Order:
     order_id: str
     trader_id: str
     execution: Execution
-    status: Status = field(default=Status.OPEN)
-    price_number_of_digits: int = field(default=1)
+    expiration: pd.Timestamp = pd.NaT
+    status: Status = Status.OPEN
+    price_number_of_digits: int = 1
 
     def __post_init__(self) -> None:
         self.price = round(number=self.price, ndigits=self.price_number_of_digits)

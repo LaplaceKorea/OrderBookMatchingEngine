@@ -12,6 +12,7 @@ class TestOrder:
     @pytest.mark.parametrize("price", [1.2, 2.4])
     @pytest.mark.parametrize("size", [10, 4.1])
     @pytest.mark.parametrize("timestamp", pd.date_range(start="2022", periods=3))
+    @pytest.mark.parametrize("expiration", [None, *pd.date_range(start="2023", periods=3)])
     @pytest.mark.parametrize("order_id", ["a", "b"])
     @pytest.mark.parametrize("trader_id", ["x", "y"])
     @pytest.mark.parametrize("execution", [Execution.LIMIT, Execution.MARKET])
@@ -23,6 +24,7 @@ class TestOrder:
         price: float,
         size: float,
         timestamp: pd.Timestamp,
+        expiration: pd.Timestamp,
         order_id: str,
         trader_id: str,
         execution: Execution,
@@ -34,6 +36,7 @@ class TestOrder:
             price=price,
             size=size,
             timestamp=timestamp,
+            expiration=expiration,
             order_id=order_id,
             trader_id=trader_id,
             execution=execution,
@@ -44,6 +47,7 @@ class TestOrder:
         assert order.price == round(number=price, ndigits=price_number_of_digits)
         assert order.size == size
         assert order.timestamp == timestamp
+        assert order.expiration == expiration
         assert order.order_id == order_id
         assert order.trader_id == trader_id
         assert order.execution == execution

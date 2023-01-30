@@ -22,6 +22,7 @@ class OrderBookSummarySchema(BaseOrderSchema):
 
 class OrderDataSchema(BaseOrderSchema):
     timestamp: Series[DateTime]
+    expiration: Series[DateTime] = Field(nullable=True)
     order_id: Series[str]
     trader_id: Series[str]
     execution: Series[str] = Field(isin=[Execution.MARKET.name, Execution.LIMIT.name])
@@ -41,4 +42,3 @@ class TradeDataSchema(BaseOrderSchema):
 
     class Config:
         strict = True
-

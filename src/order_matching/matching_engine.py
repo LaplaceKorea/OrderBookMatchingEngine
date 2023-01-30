@@ -17,13 +17,22 @@ class MatchingEngine:
         self.unprocessed_orders = OrderBook()
         self._timestamp: pd.Timestamp | None = None
 
-    def match(self, orders: Orders, timestamp: pd.Timestamp) -> ExecutedTrades:
+    def match(self, timestamp: pd.Timestamp, orders: Orders = Orders()) -> ExecutedTrades:
         self._timestamp = timestamp
         self._queue += orders
+        self._queue += self._get_expired_orders()
         trades = ExecutedTrades()
         while not self._queue.is_empty:
             trades += self._match(order=self._queue.dequeue())
         return trades
+
+    def _get_expired_orders(self) -> Orders:
+        orders = list()
+        for timestamp in filter(lambda t: t <= self._timestamp, self.unprocessed_orders.orders_by_expiration.keys()):
+            orders.extend(self.unprocessed_orders.orders_by_expiration[timestamp])
+        for order in orders:
+            order.status = Status.CANCEL
+        return Orders(orders)
 
     def _match(self, order: Order) -> ExecutedTrades:
         if order.status == Status.CANCEL:

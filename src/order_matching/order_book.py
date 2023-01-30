@@ -16,16 +16,21 @@ class OrderBook:
     def __init__(self) -> None:
         self.bids: OrderBookOrdersType = defaultdict(Orders)
         self.offers: OrderBookOrdersType = defaultdict(Orders)
+        self.orders_by_expiration: dict[pd.Timestamp, Orders] = defaultdict(Orders)
 
     def append(self, incoming_order: Order) -> None:
         orders = self._get_same_side_orders(incoming_order=incoming_order)
         orders[incoming_order.price].add(orders=[incoming_order])
+        self.orders_by_expiration[incoming_order.expiration].add(orders=[incoming_order])
 
     def remove(self, incoming_order: Order) -> None:
         orders = self._get_same_side_orders(incoming_order=incoming_order)
         orders[incoming_order.price].remove(orders=[incoming_order])
-        if incoming_order.price in self._get_order_prices(orders=orders):
+        self.orders_by_expiration[incoming_order.expiration].remove(orders=[incoming_order])
+        if len(orders[incoming_order.price]) == 0:
             orders.pop(incoming_order.price)
+        if len(self.orders_by_expiration[incoming_order.expiration]) == 0:
+            self.orders_by_expiration.pop(incoming_order.expiration)
 
     def summary(self) -> DataFrame[OrderBookSummarySchema]:
         bids = pd.DataFrame(
@@ -58,6 +63,9 @@ class OrderBook:
                 return self.bids
             case Side.BUY:
                 return self.offers
+
+    def get_subset(self, expiration: pd.Timestamp) -> Orders:
+        return self.orders_by_expiration[expiration]
 
     def matching_order_exists(self, incoming_order: Order) -> bool:
         match incoming_order.side:
