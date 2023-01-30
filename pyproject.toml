@@ -46,8 +46,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov-config=.coveragerc --verbose -n=auto"
-testpaths = "tests"
+addopts = "--cov-config=.coveragerc --doctest-modules --doctest-glob='*.md' -n=auto"
+testpaths = ["tests", "src", "README.md"]
 
 [tool.setuptools_scm]
 
