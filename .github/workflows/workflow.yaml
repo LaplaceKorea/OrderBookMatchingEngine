@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
         python-version: [ "3.10", "3.11" ]
     steps:
       - name: Check out repository code
@@ -53,6 +52,7 @@ jobs:
 
   build:
     name: Build wheels
+    needs: [ test, code-quality ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
