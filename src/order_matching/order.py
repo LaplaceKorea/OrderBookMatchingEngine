@@ -9,6 +9,8 @@ from order_matching.status import Status
 
 @dataclass(kw_only=True)
 class Order:
+    """Base Order."""
+
     side: Side
     price: float
     size: float
@@ -26,11 +28,15 @@ class Order:
 
 @dataclass(kw_only=True)
 class LimitOrder(Order):
+    """Limit Order."""
+
     execution: Execution = field(init=False, default=Execution.LIMIT)
 
 
 @dataclass(kw_only=True)
 class MarketOrder(Order):
+    """Market Order."""
+
     execution: Execution = field(init=False, default=Execution.MARKET)
     price: float = field(init=False)
 
