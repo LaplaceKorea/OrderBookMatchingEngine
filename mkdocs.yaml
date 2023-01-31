@@ -7,6 +7,9 @@ nav:
   - Home: index.md
   - Code Reference: reference/
 
+watch:
+  - src
+
 plugins:
   - search
   - gen-files:
