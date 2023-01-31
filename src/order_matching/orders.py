@@ -11,23 +11,57 @@ from order_matching.schemas import OrderDataSchema
 
 
 class Orders:
+    """Storage class for orders.
+
+    Parameters
+    ----------
+    orders
+    """
+
     def __init__(self, orders: Sequence[Order] = None) -> None:
         self.orders = list() if orders is None else list(orders)
         self._sort_orders_inplace()
 
     def add(self, orders: list[Order]) -> None:
+        """Add new orders to the storage and sort them by timestamp.
+
+        Parameters
+        ----------
+        orders
+        """
         self.orders.extend(orders)
         self._sort_orders_inplace()
 
     def dequeue(self) -> Order:
+        """Get the earliest order and remove it from the storage.
+
+        Returns
+        -------
+        Order
+            Earliest order
+        """
         return self.orders.pop(0)
 
     def remove(self, orders: list[Order]) -> None:
+        """Remove a list of orders from the storage matching by `order_id`.
+
+        Partially executed orders may have their properties changed, hence matching is done only based on the id.
+
+        Parameters
+        ----------
+        orders
+        """
         for order_to_remove in orders:
             if order_to_remove.order_id in self._order_ids:
                 self.orders.remove(self._get_order(order_id=order_to_remove.order_id))
 
     def to_frame(self) -> DataFrame[OrderDataSchema]:
+        """Get pandas DataFrame with all orders in the storage.
+
+        Returns
+        -------
+        DataFrame[OrderDataSchema]
+        """
         if len(self.orders) == 0:
             return pd.DataFrame()
         else:
@@ -41,6 +75,7 @@ class Orders:
 
     @property
     def is_empty(self) -> bool:
+        """Check if the storage is empty."""
         return len(self.orders) == 0
 
     def __add__(self, other: Orders) -> Orders:
