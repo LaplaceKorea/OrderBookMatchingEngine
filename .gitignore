@@ -3,5 +3,6 @@
 .pytest_cache/
 __pycache__/*
 venv/
+site/
 *.egg-info
 .coverage
