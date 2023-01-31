@@ -65,7 +65,7 @@ jobs:
       - name: Install dependencies
         run: pip install -e .[doc]
       - name: Build documentation
-        run: mkdocs build
+        run: mkdocs build -s -c
 
   build:
     name: Build wheels
