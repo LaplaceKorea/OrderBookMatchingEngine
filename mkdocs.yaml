@@ -3,6 +3,8 @@ site_name: Order Book Matching Engine
 theme:
   name: material
 
+repo_url: https://github.com/chintai-platform/OrderBookMatchingEngine
+
 nav:
   - Home: index.md
   - Code Reference: reference/
