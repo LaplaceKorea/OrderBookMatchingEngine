@@ -69,7 +69,7 @@ jobs:
 
   build:
     name: Build wheels
-    needs: [ test, code-quality ]
+    needs: [ test, code-quality, docs ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

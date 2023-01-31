@@ -54,3 +54,8 @@ Run tests:
 pip install -e ".[test]"
 pytest
 ```
+Build and serve documentation website:
+```shell
+pip install -e ".[doc]"
+mkdocs serve
+```
