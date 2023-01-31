@@ -1,13 +1,19 @@
-site_name: order-matching
+site_name: Order Book Matching Engine
 
 theme:
   name: material
+
+nav:
+  - Home: index.md
+  - Code Reference: reference/
 
 plugins:
   - search
   - gen-files:
       scripts:
         - docs/gen_ref_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
   - mkdocstrings:
       handlers:
         python:

@@ -32,7 +32,8 @@ test = [
 doc = [
     "mkdocs-material",
     "mkdocstrings[python]",
-    "mkdocs-gen-files"
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav"
 ]
 dev = [
     "black",
