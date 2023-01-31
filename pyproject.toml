@@ -29,6 +29,10 @@ test = [
     "pytest-cov",
     "pytest-xdist"
 ]
+doc = [
+    "mkdocs-material",
+    "mkdocstrings[python]"
+]
 dev = [
     "black",
     "isort",

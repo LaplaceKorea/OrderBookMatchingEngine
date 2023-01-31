@@ -1,0 +1,8 @@
+site_name: order-matching
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings
