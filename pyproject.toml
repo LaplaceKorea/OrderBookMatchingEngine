@@ -33,7 +33,8 @@ doc = [
     "mkdocs-material",
     "mkdocstrings[python]",
     "mkdocs-gen-files",
-    "mkdocs-literate-nav"
+    "mkdocs-literate-nav",
+    "pymdown-extensions"
 ]
 dev = [
     "black",
