@@ -48,6 +48,11 @@ class MatchingEngine:
             Timestamp of order matching
         orders
             Incoming orders. Will be matched with existing ones on the order book in
+
+        Returns
+        -------
+        ExecutedTrades
+            Executed trades storage object
         """
         self._timestamp = timestamp
         self._queue += orders
