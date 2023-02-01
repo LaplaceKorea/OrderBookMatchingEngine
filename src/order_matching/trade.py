@@ -8,6 +8,8 @@ from order_matching.side import Side
 
 @dataclass(kw_only=True)
 class Trade:
+    """Single trade storage class."""
+
     side: Side
     price: float
     size: float

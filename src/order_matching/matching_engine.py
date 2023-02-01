@@ -10,14 +10,18 @@ from order_matching.random import get_faker
 
 
 class MatchingEngine:
-    """Order Matching Engine.
+    """Order Book Matching Engine.
+
+    Parameters
+    ----------
+    seed
+        Random seed
 
     Examples
     --------
     >>> from order_matching.matching_engine import MatchingEngine
     >>> from order_matching.order import LimitOrder
     >>> from order_matching.side import Side
-
     >>> matching_engine = MatchingEngine(seed=123)
     >>> timestamp = pd.Timestamp("2023-01-01")
     >>> transaction_timestamp = timestamp + pd.Timedelta(1, unit="D")
@@ -36,6 +40,20 @@ class MatchingEngine:
         self._timestamp: pd.Timestamp | None = None
 
     def match(self, timestamp: pd.Timestamp, orders: Orders = Orders()) -> ExecutedTrades:
+        """Match incoming orders in price-time priority.
+
+        Parameters
+        ----------
+        timestamp
+            Timestamp of order matching
+        orders
+            Incoming orders. Will be matched with existing ones on the order book in
+
+        Returns
+        -------
+        ExecutedTrades
+            Executed trades storage object
+        """
         self._timestamp = timestamp
         self._queue += orders
         self._queue += self._get_expired_orders()

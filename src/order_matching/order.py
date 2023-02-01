@@ -9,6 +9,8 @@ from order_matching.status import Status
 
 @dataclass(kw_only=True)
 class Order:
+    """Single order base storage class."""
+
     side: Side
     price: float
     size: float
@@ -26,11 +28,15 @@ class Order:
 
 @dataclass(kw_only=True)
 class LimitOrder(Order):
+    """Single limit order storage class."""
+
     execution: Execution = field(init=False, default=Execution.LIMIT)
 
 
 @dataclass(kw_only=True)
 class MarketOrder(Order):
+    """Single market order storage class."""
+
     execution: Execution = field(init=False, default=Execution.MARKET)
     price: float = field(init=False)
 

@@ -2,6 +2,11 @@ from enum import Enum
 
 
 class CustomEnum(Enum):
+    """Custom enumerator.
+
+    Used across the library as a base class for enumeration objects.
+    """
+
     def __lt__(self, other: object) -> bool:
         if isinstance(other, type(self)):
             return self.value < other.value
