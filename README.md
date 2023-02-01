@@ -15,7 +15,7 @@ pip install order-matching
 
 ## Documentation
 
-[order-book-matching-engine.readthedocs.io](http://order-book-matching-engine.readthedocs.io/)
+[order-book-matching-engine.readthedocs.io](https://order-book-matching-engine.readthedocs.io/)
 
 ## Usage
 
