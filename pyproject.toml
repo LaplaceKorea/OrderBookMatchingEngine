@@ -22,6 +22,7 @@ dynamic = ["version"]
 
 [project.urls]
 Source = "https://github.com/chintai-platform/OrderBookMatchingEngine"
+Documentation = "https://order-book-matching-engine.readthedocs.io/"
 
 [project.optional-dependencies]
 test = [
