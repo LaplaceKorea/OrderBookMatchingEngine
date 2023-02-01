@@ -1,6 +1,7 @@
 # Order Book Matching Engine
 
 ![pytest](https://github.com/chintai-platform/OrderBookMatchingEngine/actions/workflows/workflow.yaml/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/order-book-matching-engine/badge/?version=latest)](https://order-book-matching-engine.readthedocs.io/en/latest/?badge=latest)
 [![!pypi](https://img.shields.io/pypi/v/order-matching)](https://pypi.org/project/order-matching/)
 [![!python-versions](https://img.shields.io/pypi/pyversions/order-matching)](https://pypi.org/project/order-matching/)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
@@ -11,6 +12,10 @@
 ```shell
 pip install order-matching
 ```
+
+## Documentation
+
+[order-book-matching-engine.readthedocs.io](http://order-book-matching-engine.readthedocs.io/)
 
 ## Usage
 
