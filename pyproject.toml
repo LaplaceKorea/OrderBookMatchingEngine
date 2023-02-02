@@ -40,7 +40,6 @@ doc = [
 dev = [
     "black",
     "ruff",
-    "autoflake",
     "mypy",
     "pre-commit",
 ]
@@ -64,18 +63,13 @@ line-length = 120
 
 [tool.ruff]
 line-length = 120
-select = ["E", "F", "D", "B", "I"]
+select = ["E", "F", "D", "B", "I", "ARG"]
 target-version = "py310"
 src = ["src", "tests"]
 ignore = ["D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107", "D213", "D417"]
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
-
-[tool.isort]
-profile = "black"
-line_length = 120
-src_paths = ["src", "test"]
 
 [tool.mypy]
 ignore_missing_imports = true
