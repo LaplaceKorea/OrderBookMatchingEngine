@@ -1,10 +1,10 @@
 import pandas as pd
 
 from order_matching.order import LimitOrder
+from order_matching.order_book import OrderBook
 from order_matching.orders import Orders
 from order_matching.schemas import OrderBookSummarySchema
 from order_matching.side import Side
-from order_matching.order_book import OrderBook
 
 
 class TestOrderBook:
@@ -25,13 +25,13 @@ class TestOrderBook:
             LimitOrder(
                 side=Side.BUY, price=buy_price, size=size, timestamp=self.timestamp, order_id=order_id, trader_id="x"
             )
-            for size, order_id in zip([12, 65, 98], ["a", "b", "c"])
+            for size, order_id in zip([12, 65, 98], ["a", "b", "c"], strict=True)
         ]
         sell_orders = [
             LimitOrder(
                 side=Side.SELL, price=sell_price, size=size, timestamp=self.timestamp, order_id=order_id, trader_id="y"
             )
-            for size, order_id in zip([12, 65, 98], ["a", "b", "c"])
+            for size, order_id in zip([12, 65, 98], ["a", "b", "c"], strict=True)
         ]
         for order in [*buy_orders, *sell_orders]:
             order_book.append(incoming_order=order)
@@ -189,11 +189,11 @@ class TestOrderBook:
         order_book = OrderBook()
         buy_orders = [
             LimitOrder(side=Side.BUY, price=price, size=size, timestamp=self.timestamp, order_id="x", trader_id="x")
-            for size, price in zip([12, 65, 98], [1.1, 1.3, 1.4])
+            for size, price in zip([12, 65, 98], [1.1, 1.3, 1.4], strict=True)
         ]
         sell_orders = [
             LimitOrder(side=Side.SELL, price=price, size=size, timestamp=self.timestamp, order_id="x", trader_id="y")
-            for size, price in zip([8, 86, 72], [1.5, 1.7, 1.8])
+            for size, price in zip([8, 86, 72], [1.5, 1.7, 1.8], strict=True)
         ]
         for order in [*buy_orders, *sell_orders]:
             order_book.append(incoming_order=order)
