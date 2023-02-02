@@ -11,13 +11,6 @@ repos:
   hooks:
     - id: ruff
 
-- repo: https://github.com/pycqa/isort
-  rev: 5.11.4
-  hooks:
-  - id: isort
-    name: isort (python)
-    args: ["--profile", "black", "--filter-files"]
-
 - repo: https://github.com/myint/autoflake
   rev: "v2.0.0"
   hooks:
