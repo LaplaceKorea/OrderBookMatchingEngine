@@ -40,7 +40,7 @@ trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02
         self.unprocessed_orders = OrderBook()
         self._timestamp: pd.Timestamp | None = None
 
-    def match(self, timestamp: pd.Timestamp, orders: Orders = Orders()) -> ExecutedTrades:
+    def match(self, timestamp: pd.Timestamp, orders: Orders = None) -> ExecutedTrades:
         """Match incoming orders in price-time priority.
 
         Parameters
@@ -56,7 +56,7 @@ trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02
             Executed trades storage object
         """
         self._timestamp = timestamp
-        self._queue += orders
+        self._queue += orders if orders is not None else Orders()
         self._queue += self._get_expired_orders()
         trades = ExecutedTrades()
         while not self._queue.is_empty:
