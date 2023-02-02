@@ -40,7 +40,6 @@ doc = [
 dev = [
     "black",
     "ruff",
-    "isort",
     "autoflake",
     "mypy",
     "pre-commit",
