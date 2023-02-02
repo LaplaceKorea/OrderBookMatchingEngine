@@ -2,11 +2,11 @@ import pandas as pd
 
 from order_matching.executed_trades import ExecutedTrades
 from order_matching.order import Order
+from order_matching.order_book import OrderBook
 from order_matching.orders import Orders
+from order_matching.random import get_faker
 from order_matching.status import Status
 from order_matching.trade import Trade
-from order_matching.order_book import OrderBook
-from order_matching.random import get_faker
 
 
 class MatchingEngine:
@@ -29,7 +29,8 @@ class MatchingEngine:
     >>> sell_order = LimitOrder(side=Side.SELL, price=0.8, size=1.6, timestamp=timestamp, order_id="b", trader_id="y")
     >>> executed_trades = matching_engine.match(orders=Orders([buy_order, sell_order]), timestamp=transaction_timestamp)
     >>> print(executed_trades.trades)
-    [Trade(side=SELL, price=1.2, size=1.6, incoming_order_id='b', book_order_id='a', execution=LIMIT, trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02 00:00:00'))]
+    [Trade(side=SELL, price=1.2, size=1.6, incoming_order_id='b', book_order_id='a', execution=LIMIT, \
+trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02 00:00:00'))]
     """
 
     def __init__(self, seed: int = None) -> None:
@@ -63,7 +64,7 @@ class MatchingEngine:
         return trades
 
     def _get_expired_orders(self) -> Orders:
-        orders = list()
+        orders: list[Order] = list()
         for timestamp in filter(lambda t: t <= self._timestamp, self.unprocessed_orders.orders_by_expiration.keys()):
             orders.extend(self.unprocessed_orders.orders_by_expiration[timestamp])
         for order in orders:

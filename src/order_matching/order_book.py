@@ -95,7 +95,7 @@ class OrderBook:
         -------
         OrderBookOrdersType
         """
-        match incoming_order.side:
+        match incoming_order.side:  # noqa E501
             case Side.SELL:
                 return self.bids
             case Side.BUY:
