@@ -6,25 +6,10 @@ repos:
   - id: black
     language_version: "python3.10"
 
-- repo: https://github.com/pycqa/isort
-  rev: 5.11.4
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.0.239
   hooks:
-  - id: isort
-    name: isort (python)
-    args: ["--profile", "black", "--filter-files"]
-
-- repo: https://github.com/myint/autoflake
-  rev: "v2.0.0"
-  hooks:
-  - id: autoflake
-    args: ["--in-place", "--remove-all-unused-imports", "--remove-unused-variables", "-r"]
-
-- repo: https://github.com/pycqa/pydocstyle
-  rev: 6.3.0
-  hooks:
-  - id: pydocstyle
-    additional_dependencies: [toml==0.10.2]
-    args: ["--config", "pyproject.toml"]
+    - id: ruff
 
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.991

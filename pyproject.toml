@@ -39,8 +39,7 @@ doc = [
 ]
 dev = [
     "black",
-    "isort",
-    "autoflake",
+    "ruff",
     "mypy",
     "pre-commit",
 ]
@@ -62,10 +61,15 @@ testpaths = ["tests", "src", "README.md"]
 [tool.black]
 line-length = 120
 
-[tool.isort]
-profile = "black"
-line_length = 120
-src_paths = ["src", "test"]
+[tool.ruff]
+line-length = 120
+select = ["E", "F", "D", "B", "I", "ARG"]
+target-version = "py310"
+src = ["src", "tests"]
+ignore = ["D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107", "D213", "D417"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -75,7 +79,3 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 non_interactive = true
 no_strict_optional = true
-
-[tool.pydocstyle]
-inherit = false
-ignore = ["D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107", "D213", "D417"]

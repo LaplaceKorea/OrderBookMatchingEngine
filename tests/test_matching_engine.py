@@ -2,13 +2,13 @@ from copy import deepcopy
 
 import pandas as pd
 
-from order_matching.order import LimitOrder, MarketOrder
 from order_matching.matching_engine import MatchingEngine
+from order_matching.order import LimitOrder, MarketOrder
 from order_matching.orders import Orders
+from order_matching.random import get_faker
 from order_matching.side import Side
 from order_matching.status import Status
 from order_matching.trade import Trade
-from order_matching.random import get_faker
 
 
 class TestMatchingEngine:
