@@ -19,6 +19,7 @@ class MatchingEngine:
 
     Examples
     --------
+    >>> from pprint import pp
     >>> from order_matching.matching_engine import MatchingEngine
     >>> from order_matching.order import LimitOrder
     >>> from order_matching.side import Side
@@ -28,9 +29,15 @@ class MatchingEngine:
     >>> buy_order = LimitOrder(side=Side.BUY, price=1.2, size=2.3, timestamp=timestamp, order_id="a", trader_id="x")
     >>> sell_order = LimitOrder(side=Side.SELL, price=0.8, size=1.6, timestamp=timestamp, order_id="b", trader_id="y")
     >>> executed_trades = matching_engine.match(orders=Orders([buy_order, sell_order]), timestamp=transaction_timestamp)
-    >>> print(executed_trades.trades)
-    [Trade(side=SELL, price=1.2, size=1.6, incoming_order_id='b', book_order_id='a', execution=LIMIT, \
-trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02 00:00:00'))]
+    >>> pp(executed_trades.trades)
+    [Trade(side=SELL,
+           price=1.2,
+           size=1.6,
+           incoming_order_id='b',
+           book_order_id='a',
+           execution=LIMIT,
+           trade_id='c4da537c-1651-4dae-8486-7db30d67b366',
+           timestamp=Timestamp('2023-01-02 00:00:00'))]
     """
 
     def __init__(self, seed: int = None) -> None:

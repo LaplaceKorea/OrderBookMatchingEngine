@@ -21,6 +21,7 @@ pip install order-matching
 ## Usage
 
 ```python
+>>> from pprint import pp
 >>> import pandas as pd
 
 >>> from order_matching.matching_engine import MatchingEngine
@@ -35,8 +36,16 @@ pip install order-matching
 >>> sell_order = LimitOrder(side=Side.SELL, price=0.8, size=1.6, timestamp=timestamp, order_id="b", trader_id="y")
 >>> executed_trades = matching_engine.match(orders=Orders([buy_order, sell_order]), timestamp=transaction_timestamp)
 
->>> print(executed_trades.trades)
-[Trade(side=SELL, price=1.2, size=1.6, incoming_order_id='b', book_order_id='a', execution=LIMIT, trade_id='c4da537c-1651-4dae-8486-7db30d67b366', timestamp=Timestamp('2023-01-02 00:00:00'))]
+>>> pp(executed_trades.trades)
+[Trade(side=SELL,
+       price=1.2,
+       size=1.6,
+       incoming_order_id='b',
+       book_order_id='a',
+       execution=LIMIT,
+       trade_id='c4da537c-1651-4dae-8486-7db30d67b366',
+       timestamp=Timestamp('2023-01-02 00:00:00'))]
+
 
 ```
 
