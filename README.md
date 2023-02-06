@@ -8,6 +8,14 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v1.json)](https://github.com/charliermarsh/ruff)
 
+## Overview
+
+This package is a simple order book matching engine implementation in Python. Its main features are:
+- price-time priority
+- limit and market orders
+- order cancellation and expiration
+- conversion into pandas DataFrame of orders, executed trades, order book summary
+
 ## Install
 
 ```shell
@@ -48,6 +56,11 @@ pip install order-matching
 
 
 ```
+
+## Related Projects
+
+- [bmoscon/orderbook](https://github.com/bmoscon/orderbook)
+- [Kautenja/limit-order-book](https://github.com/Kautenja/limit-order-book)
 
 ## Contribute
 

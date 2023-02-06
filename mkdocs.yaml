@@ -23,6 +23,8 @@ watch:
 
 plugins:
   - search
+  - macros:
+      include_dir: .
   - gen-files:
       scripts:
         - docs/gen_ref_pages.py

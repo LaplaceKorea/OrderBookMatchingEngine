@@ -35,6 +35,7 @@ doc = [
     "mkdocstrings[python]",
     "mkdocs-gen-files",
     "mkdocs-literate-nav",
+    "mkdocs-macros-plugin",
     "pymdown-extensions"
 ]
 dev = [
