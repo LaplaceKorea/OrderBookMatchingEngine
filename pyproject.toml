@@ -28,7 +28,8 @@ Documentation = "https://order-book-matching-engine.readthedocs.io/"
 test = [
     "pytest",
     "pytest-cov",
-    "pytest-xdist"
+    "pytest-xdist",
+    "pytest-benchmark[histogram]"
 ]
 doc = [
     "mkdocs-material",
@@ -54,7 +55,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov-config=.coveragerc --doctest-modules --doctest-glob='*.md' -n=auto"
+addopts = "--cov-config=.coveragerc --doctest-modules --doctest-glob='*.md' -n=auto --benchmark-disable"
 testpaths = ["tests", "src", "README.md"]
 
 [tool.setuptools_scm]

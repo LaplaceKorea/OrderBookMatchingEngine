@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import pandas as pd
+from pytest_benchmark.fixture import BenchmarkFixture
 
 from order_matching.matching_engine import MatchingEngine
 from order_matching.order import LimitOrder, MarketOrder
@@ -742,3 +743,7 @@ class TestMatchingEngine:
 
         assert matching_engine.unprocessed_orders.bids == dict()
         assert matching_engine.unprocessed_orders.offers == dict()
+
+    def test_matching_with_benchmark(self, random_orders: Orders, benchmark: BenchmarkFixture) -> None:
+        order_book = MatchingEngine()
+        benchmark(order_book.match, orders=random_orders, timestamp=random_orders.orders[-1].timestamp)

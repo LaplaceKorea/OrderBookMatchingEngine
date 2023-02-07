@@ -82,6 +82,10 @@ Run tests:
 pip install -e ".[test]"
 pytest
 ```
+Run benchmark and see the result either in the terminal or as a plot in `benchmark_history.svg`:
+```shell
+./benchmark.sh
+```
 Build and serve documentation website:
 ```shell
 pip install -e ".[doc]"
