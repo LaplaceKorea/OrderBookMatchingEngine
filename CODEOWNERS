@@ -1,2 +1,4 @@
 * @chintai-platform/data-science
-.github/ @chintai-platform/dev-ops
+Dockerfile* @chintai-platform/dev-ops
+infra/ @chintai-platform/dev-ops
+CODEOWNERS @chintai-platform/admins
