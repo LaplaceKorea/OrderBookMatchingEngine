@@ -1,6 +1,8 @@
 ## Issue
 
-- If applicable, describe briefly which problem does this PR solve.
+JIRA-EX-
+
+- If applicable, describe briefly what has been corrected in this PR.
 
 ## Changes
 
@@ -8,6 +10,6 @@
 
 ## Change severity
 
-- [ ] Major (breaking change)
-- [ ] Minor (new feature)
-- [ ] Patch (improvement, bug fix)
+- [ ] Major
+- [ ] Minor
+- [ ] Patch
