@@ -7,9 +7,3 @@ JIRA-EX-
 ## Changes
 
 - Describe briefly what has been changed in this PR.
-
-## Change severity
-
-- [ ] Major
-- [ ] Minor
-- [ ] Patch
