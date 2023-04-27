@@ -1,0 +1,20 @@
+name: Pull Request Labels
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+
+jobs:
+
+  label-semver:
+    runs-on: [self-hosted, shared]
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: mheap/github-action-required-labels@v4
+        with:
+          mode: exactly
+          count: 1
+          labels: "patch, minor, major"
+          add_comment: true
